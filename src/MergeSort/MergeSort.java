@@ -10,9 +10,9 @@ public class MergeSort {
         System.out.println(Arrays.toString(unsortedArray));
     }
 
-    private static void mergeSort(int[] array, Integer start, Integer end){
+    private static void mergeSort(int[] array, int start, int end){
         if (start < end) {
-            Integer midpoint = (start + end) / 2;
+            int midpoint = (start + end) / 2;
 
             mergeSort(array, start, midpoint);
             mergeSort(array, midpoint + 1, end);
@@ -21,14 +21,14 @@ public class MergeSort {
         }
     }
 
-    private static void merge(int[] array, Integer start, Integer midpoint, Integer end){
+    private static void merge(int[] array, int start, int midpoint, int end){
         int[] leftArray = Arrays.copyOfRange(array, start, midpoint + 1);
         int[] rightArray = Arrays.copyOfRange(array, midpoint + 1, end + 1);
 
-        Integer leftCounter = 0;
-        Integer rightCounter = 0;
+        int leftCounter = 0;
+        int rightCounter = 0;
 
-        Integer counter = start;
+        int counter = start;
 
         while (counter <= end) {
             if(leftCounter >= leftArray.length) {
@@ -40,8 +40,8 @@ public class MergeSort {
                 continue;
             }
 
-            Integer leftItem = leftArray[leftCounter];
-            Integer rightItem = rightArray[rightCounter];
+            int leftItem = leftArray[leftCounter];
+            int rightItem = rightArray[rightCounter];
 
             if (leftItem < rightItem) {
                 array[counter++] = leftItem;
