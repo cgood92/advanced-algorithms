@@ -17,7 +17,9 @@ public class MergeSort {
             mergeSort(array, start, midpoint);
             mergeSort(array, midpoint + 1, end);
 
-            merge(array, start, midpoint, end);
+            if (array[midpoint] > array[midpoint + 1]) {
+                merge(array, start, midpoint, end);
+            }
         }
     }
 
