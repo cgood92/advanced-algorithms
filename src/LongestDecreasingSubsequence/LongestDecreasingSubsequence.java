@@ -23,6 +23,7 @@ for i = 0 to n.length
 	if a[i] <= a[0]
 		s = a[i..a.length]
 		n = LONGEST-DECREASING-SUBSEQUENCE-AUX(s)
+		r[n] = n
 		if n.length > m.length
 			m = n
 d = [...d, ...m]
@@ -38,7 +39,7 @@ class LongestDecreasingSubsequence {
 	}
 
 	private static List<Integer> longestDecreasingSubsequence(List<Integer> list) {
-		HashMap<List<Integer>, List<Integer>> memoizedMap = new HashMap<>();
+		HashMap<String, List<Integer>> memoizedMap = new HashMap<>();
 		List<Integer> maxDecreasing = new ArrayList<>();
 
 		for (int i = 0; i < list.size() - maxDecreasing.size(); i++) {
@@ -52,8 +53,9 @@ class LongestDecreasingSubsequence {
 		return maxDecreasing;
 	}
 
-	private static List<Integer> longestDecreasingSubsequenceAux(List<Integer> list, HashMap<List<Integer>, List<Integer>> memoizedMap) {
-		List<Integer> possibleSavedEntry = memoizedMap.get(list);
+	private static List<Integer> longestDecreasingSubsequenceAux(List<Integer> list, HashMap<String, List<Integer>> memoizedMap) {
+		String key = makeKey(list);
+		List<Integer> possibleSavedEntry = memoizedMap.get(key);
 		if (possibleSavedEntry != null) {
 			return possibleSavedEntry;
 		}
@@ -72,6 +74,7 @@ class LongestDecreasingSubsequence {
 
 			if (numberToCompare <= startingNumber) {
 				List<Integer> subArray = longestDecreasingSubsequenceAux(list.subList(i, list.size()), memoizedMap);
+				memoizedMap.put(makeKey(subArray), subArray);
 
 				if (subArray.size() > longestSubArray.size()) {
 					longestSubArray = subArray;
@@ -80,8 +83,12 @@ class LongestDecreasingSubsequence {
 		}
 
 		decreasing.addAll(longestSubArray);
-		memoizedMap.put(list, decreasing);
+		memoizedMap.put(key, decreasing);
 
 		return decreasing;
+	}
+
+	static private String makeKey(List<Integer> array){
+		return array.toString();
 	}
 }
