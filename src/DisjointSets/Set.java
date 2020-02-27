@@ -11,12 +11,10 @@ public class Set
     Item head;
     Item tail;
     
-    //Empty set
     public Set(){
         head = null; tail = null;
     }
     
-    //Singleton
     public Set(Item x){
         x.setContainer(this);
         this.head = x;
@@ -52,11 +50,9 @@ public class Set
     public Item find(char x){
         Item current = getHead();
         while(current != null){
-            //System.out.println("Looping in find with current = " + current);
             if(current.getValue() == x) return current;
             current = current.getNext();
         }
-        //System.out.println("Leaving find()");
         return current;
     }
     

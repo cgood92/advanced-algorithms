@@ -12,19 +12,24 @@ package DisjointSets;
  * @author Radhouane
  * @version 2/23/2020
  */
-import java.util.*;
 public class ConnectedComponents
 {
-    //The null pointers will later reference the disjoint sets and items in the disjoint sets
-    static Item[] items = {new Item('a', null, null), new Item('b', null, null), new Item('c', null, null),
-            new Item('d', null, null), new Item('e', null, null), new Item('f', null, null),
-            new Item('g', null, null), new Item('h', null, null), new Item('i', null, null),
-            new Item('j', null, null)};
-    static Graph g = new Graph(10);//We will have the graph represent the pairwise raltionships between between the item. I.e, edges/vertices
-    
+    static Item[] items = {
+        new Item('a', null, null),
+        new Item('b', null, null),
+        new Item('c', null, null),
+        new Item('d', null, null),
+        new Item('e', null, null),
+        new Item('f', null, null),
+        new Item('g', null, null),
+        new Item('h', null, null),
+        new Item('i', null, null),
+        new Item('j', null, null)
+    };
 
-    //Set up an empty DisjointSet structure
-    static DisjointSet ds = new DisjointSet();//Look in the DisjointSet class for implementation details
+    static Graph g = new Graph(10);
+    
+    static DisjointSet ds = new DisjointSet();
 
     public static void main(String...args){
 
@@ -45,8 +50,8 @@ public class ConnectedComponents
 
         connected_components();
 
-        //Now we have these componente linked to the ds structures.
-        //Fro now on we can EFFICIENTLY query the structure to see what item is connected to another
+        //Now we have these component linked to the ds structures.
+        //For now on we can EFFICIENTLY query the structure to see what item is connected to another
         //via a path through the graph
         System.out.println("Show the disjoint sets");
         System.out.println(ds);
@@ -66,6 +71,7 @@ public class ConnectedComponents
             for(int j = i; j < items.length; j++){
                 if(g.isVertex(i,j) && ds.find_set(items[i]) != ds.find_set(items[j])){
                     System.out.println("The graph connects " + items[i] + " and " + items[j] + ". Merging the sets...");
+
                     ds.union(items[i].getValue(), items[j].getValue());
                 }
             }

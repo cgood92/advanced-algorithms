@@ -7,14 +7,11 @@ package DisjointSets;
  * @author Radhouane
  * @version 2/24/2020
  */
-import java.util.*;
 public class Graph
 {
-    //Adjacency matrix implementation
-    int[][] graph; 
+    int[][] graph;
     int nbrVertices;
     
-    //Graph with no vertices
     public Graph(int n){
         nbrVertices = n;
         graph = new int[n][n];

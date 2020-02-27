@@ -19,18 +19,16 @@ public class DisjointSet
         sets.add(new Set(x)); 
     }
     
-    public Item find_set(Item x){//O(1)
-        return x.getContainer().getHead();//The head of a set is its representative
+    public Item find_set(Item x){
+        return x.getContainer().getHead();
         
     }
-    public void union(char x, char y){//O(n^2)
+    public void union(char x, char y){
          for(int i = 0; i < sets.size(); i++){
              for(int j = i + 1; j < sets.size(); j++)
              {
-                 //System.out.println("Union running " + i + " " + j);
-                 if(sets.get(i).find(x) != null && 
+                 if(sets.get(i).find(x) != null &&
                     sets.get(j).find(y) != null){
-                     //System.out.println("Trying a merge");
                      sets.get(i).merge(sets.get(j));
                      sets.remove(j);
                      return;
