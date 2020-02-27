@@ -1,3 +1,4 @@
+package DisjointSets;
 
 /**
  * Data type for the items (objects) to be added to a disjoint set

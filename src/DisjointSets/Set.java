@@ -1,3 +1,4 @@
+package DisjointSets;
 
 /**
  * Datatype for a set

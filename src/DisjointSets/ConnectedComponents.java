@@ -1,3 +1,4 @@
+package DisjointSets;
 
 /**
  * Given a graph, Use a DisjointSet data structure

@@ -1,3 +1,4 @@
+package DisjointSets;
 
 /**
  * A Graph data structure
