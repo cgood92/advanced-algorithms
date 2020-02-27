@@ -8,36 +8,36 @@ package DisjointSets;
  */
 public class Set
 {
-    Item head;
-    Item tail;
+    User head;
+    User tail;
     
     public Set(){
         head = null; tail = null;
     }
     
-    public Set(Item x){
+    public Set(User x){
         x.setContainer(this);
         this.head = x;
         this.tail = x;
     }
     
-    public void setHead(Item head){
+    public void setHead(User head){
         this.head = head;
     }
-    public void setTail(Item tail){
+    public void setTail(User tail){
         this.tail = tail;
     }
-    public Item getHead(){
+    public User getHead(){
         return head;
     }
-    public Item getTail(){
+    public User getTail(){
         return tail;
     }
     
     public void merge(Set other){
         getTail().setNext(other.getHead());
         
-        Item current = other.getHead();
+        User current = other.getHead();
         
         while(current != null){
             current.setContainer(this);
@@ -47,8 +47,8 @@ public class Set
         setTail(other.getTail());
     }
     
-    public Item find(char x){
-        Item current = getHead();
+    public User find(String x){
+        User current = getHead();
         while(current != null){
             if(current.getValue() == x) return current;
             current = current.getNext();
@@ -58,7 +58,7 @@ public class Set
     
     public String toString(){
         String s = "";
-        Item current = head;
+        User current = head;
         while(current != null){
             s += current.toString();
             current = current.getNext();

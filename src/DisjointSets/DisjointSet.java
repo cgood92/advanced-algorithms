@@ -15,15 +15,15 @@ public class DisjointSet
         sets = new ArrayList<Set>();
     }
     
-    public void make_set(Item x){//O(1)
+    public void make_set(User x){//O(1)
         sets.add(new Set(x)); 
     }
     
-    public Item find_set(Item x){
+    public User find_set(User x){
         return x.getContainer().getHead();
         
     }
-    public void union(char x, char y){
+    public void union(String x, String y){
          for(int i = 0; i < sets.size(); i++){
              for(int j = i + 1; j < sets.size(); j++)
              {
