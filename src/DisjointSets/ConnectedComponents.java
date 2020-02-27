@@ -27,11 +27,8 @@ public class ConnectedComponents
         new User("Bill Gates")
     };
 
-    static Graph g = new Graph(10);
-    
-    static DisjointSet ds = new DisjointSet();
-
     public static void main(String...args){
+        Graph g = new Graph(10);
 
         // Adding presidential friends
         g.addVertex(0,1);
@@ -55,7 +52,7 @@ public class ConnectedComponents
         
         System.out.println("Find the connected components of the graph");
 
-        connected_components();
+        DisjointSet ds = connected_components(g);
 
         //Now we have these component linked to the ds structures.
         //For now on we can EFFICIENTLY query the structure to see what item is connected to another
@@ -65,7 +62,9 @@ public class ConnectedComponents
 
     }
     //Mimics the algorithm from the book
-    public static void connected_components(){
+    public static DisjointSet connected_components(Graph g){
+        DisjointSet ds = new DisjointSet();
+
         //Add singleton sets to ds, one singleton set per item
         for(int i = 0; i < users.length; i++){
             ds.make_set(users[i]);
@@ -84,6 +83,8 @@ public class ConnectedComponents
             }
             System.out.println(ds);
         }
+
+        return ds;
     }
     
     //Finish this method as an exercise
