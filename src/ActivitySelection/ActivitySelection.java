@@ -18,7 +18,7 @@
  * k = index of the subproblem, 0 for the original problem
  * n = size of the original problem
  */
-public class Main
+public class ActivitySelection
 {
     public static void main(String...args){
         //Start times of activities (e.g., operating system schedulers)
