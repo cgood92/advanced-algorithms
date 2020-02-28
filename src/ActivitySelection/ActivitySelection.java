@@ -24,7 +24,7 @@ public class ActivitySelection
         //Start times of activities (e.g., operating system schedulers)
         int[] s = {1, 3, 0, 5, 3, 5, 6, 8, 8, 2, 12};
         //Finish times of activities
-        int[] f = {4, 5, 6, 7, 9, 9, 10, 11, 12, 14, 16};//This array is *sorted*//Goof for efficency
+        int[] f = {4, 5, 6, 7, 9, 9, 10, 11, 12, 14, 16};//This array is *sorted* //Goof for efficiency
         //we can easily/efficiently lookup finish times
         //Want to find the maximal/largest set of activities that I can schedule within this time window
         //How many out of 11 activities I can schedule. List the activities
@@ -37,22 +37,23 @@ public class ActivitySelection
     //I.e., since activity 0 finished at t == 4, We are left with the largest possible chunk of time to allocate
     public static void RECURSIVE_ACTIVITY_SELECTOR(int[] s, int[] f, int k, int n){
         //The first recursive call prints the first activity
-        if(k == 0) System.out.print("(" + s[0] + ", " + f[0] + ") ");//Greedy choice WILL be part of the solution
-        //This is the greedy choice when we first process the problem
+        if(k == 0) {
+            System.out.print("(" + s[0] + ", " + f[0] + ") (" + s[1] + ", " + f[1] + ")");
+        }
 
-        int m = k + 1;      
+        int m = k + 2;
         //skip all the activities that start before activity k finishes
-        while(m < n && s[m] < f[k]){
+        while(m < n - 1 && s[m] < f[k + 1]){
             m = m + 1;
         }
         //We get here once we've skipped said activities
-        if(m < n){
+        if(m < n - 1){
             //Greedy Choice. Print the (s,f) of the activity m that wasn't skipped
-            System.out.print("(" + s[m] + ", " + f[m] + ") ");
-            RECURSIVE_ACTIVITY_SELECTOR(s, f, m, n);//Calls itself recursively, this time k == teh new value of m; i.e., moved ahead
+            System.out.print(" (" + s[m] + ", " + f[m] + ") (" + s[m + 1] + ", " + f[m + 1] + ")");
+            RECURSIVE_ACTIVITY_SELECTOR(s, f, m, n);//Calls itself recursively, this time k == the new value of m; i.e., moved ahead
         }
         else{
-            System.out.println("Done. ");
+            System.out.println("Done.");
         }
     }
 
