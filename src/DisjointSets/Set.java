@@ -60,8 +60,9 @@ public class Set
         String s = "";
         User current = head;
         while(current != null){
-            s += current.toString();
+            s += "\t- " + current.toString();
             current = current.getNext();
+            if (current != null) s += "\n";
         }
         return s;
     }

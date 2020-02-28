@@ -1,5 +1,10 @@
 package DisjointSets;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 /**
  * Given a graph, Use a DisjointSet data structure
  * to hold the graph's connected components 
@@ -18,11 +23,14 @@ public class ConnectedComponents
         new User("Thomas Jefferson"),
         new User("James Madison"),
         new User("George Washington"),
+
         new User("Harry Potter"),
         new User("Ron Weasley"),
         new User("Hermione Granger"),
         new User("Neville Longbottom"),
+
         new User("Donald Trump"),
+
         new User("Steve Jobs"),
         new User("Bill Gates")
     };
@@ -46,21 +54,38 @@ public class ConnectedComponents
         // Adding rich computer friends
         g.addVertex(8, 9);
 
-        //Showing relationships between the users
-        System.out.println("Given the following undirected graph...");
-        System.out.println(g);
-        
-        System.out.println("Find the connected components of the graph");
+        System.out.println("These are the users with their friends:");
+        for (int i = 0; i < users.length; i++) {
+            String user = users[i].getValue();
+            int row = i;
 
-        DisjointSet ds = connected_components(g);
+           String friends = IntStream
+                .range(0, users.length)
+                .filter(j -> g.isVertex(row, j))
+                .mapToObj(j -> users[j].getValue())
+                .collect(Collectors.joining(", "));
 
-        //Now we have these component linked to the ds structures.
-        //For now on we can EFFICIENTLY query the structure to see what item is connected to another
-        //via a path through the graph
-        System.out.println("Show the disjoint sets");
-        System.out.println(ds);
+           boolean hasFriends = friends.length() > 0;
+           System.out.println("\t" + user + ": " + (hasFriends ? friends : "<None>"));
+        }
 
+        DisjointSet friendsDisjointSet = connected_components(g);
+
+        System.out.println("\n");
+
+        ArrayList<Set> sets = friendsDisjointSet.getSets();
+
+        for(Set set: sets) {
+            System.out.println("Friends cluster:");
+            System.out.println(set.toString() + "\n");
+        }
+
+        // Test
+        System.out.println("Should be true: " + same_components(friendsDisjointSet, users[0], users[1]));
+        System.out.println("Should be true: " + same_components(friendsDisjointSet, users[8], users[9]));
+        System.out.println("Should be false: " + same_components(friendsDisjointSet, users[1], users[5]));
     }
+
     //Mimics the algorithm from the book
     public static DisjointSet connected_components(Graph g){
         DisjointSet ds = new DisjointSet();
@@ -69,26 +94,20 @@ public class ConnectedComponents
         for(int i = 0; i < users.length; i++){
             ds.make_set(users[i]);
         }
-        System.out.println("Show the disjoint sets");
-        System.out.println(ds);
 
         //Merge the sets
         for(int i = 0; i < users.length; i++){
             for(int j = i; j < users.length; j++){
                 if(g.isVertex(i,j) && ds.find_set(users[i]) != ds.find_set(users[j])){
-                    System.out.println("The graph connects " + users[i] + " and " + users[j] + ". Merging the sets...");
-
                     ds.union(users[i].getValue(), users[j].getValue());
                 }
             }
-            System.out.println(ds);
         }
 
         return ds;
     }
-    
-    //Finish this method as an exercise
 
-    public static void same_components(User u, User v){
+    public static boolean same_components(DisjointSet ds, User u, User v){
+        return ds.find_set(u) == ds.find_set(v);
     }
 }

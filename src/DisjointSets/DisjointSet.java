@@ -36,6 +36,10 @@ public class DisjointSet
              }
          }
     }
+
+    public ArrayList<Set> getSets() {
+        return sets;
+    }
     
     public String toString(){
         String str = "";
