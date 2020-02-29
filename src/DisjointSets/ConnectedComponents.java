@@ -6,17 +6,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Given a graph, Use a DisjointSet data structure
- * to hold the graph's connected components 
- * 
- * Bird's Eye View: Given a set of tems, we need to separate the users into dijoint sets
- * According to certain property (or rule for puttings users together).
- * E.g., (Book's example) Given a graph, find the connected subgraphs. Want to make future look up operations fast.
- * We are talking about look up operation involving questions like "Is this item related to this other item?"
- * 
- * @author Radhouane
+ * Original author: Radhouane
  * @version 2/23/2020
+ *
+ * Revised by: Clint
+ * @version 2/29/2020
  */
+
 public class ConnectedComponents
 {
     static User[] users = {
