@@ -1,45 +1,106 @@
 package ActivitySelection;
-/**
- * Greedy algorithm for solving the Activity Selection Problem
- *
- * Original author: Radhouane
- * @version 2/9/2020
- *
- *
- * Revised by: Clint
- * @version 2/29/2020
+
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+ACTIVITY_SELECTION(s, f)
+SORT_PAIRS_NON_DECREASING_BY_FINISH(s, f)
+
+r[0] = [s[0], f[0]]
+INSERT_INTO_ARRAY(r, FIND_INDEX_TO_INSERT(s, [s[1], f[1]]), [s[1], f[1]])
+
+m = 0
+for i = 2 to s.length - 1
+    if (s[i] >= f[m])
+        y = FIND_INDEX_TO_INSERT(s, [s[i], f[i]], m)
+        if y
+            x = FIND_INDEX_TO_INSERT(s, [s[i+1], f[i+1]], 0)
+            if x
+                INSERT_INTO_ARRAY(r, y, [s[i], f[i]])
+                INSERT_INTO_ARRAY(r, x, [s[i+1], f[i+1]])
+                m++
+    i = i + 2
+
+return r
  */
 
 public class ActivitySelection
 {
 
-    public static String RECURSIVE_ACTIVITY_SELECTOR(int[] s, int[] f){
-        return RECURSIVE_ACTIVITY_SELECTOR(s, f, 0, "");
-    }
-
-    public static String RECURSIVE_ACTIVITY_SELECTOR(int[] s, int[] f, int k, String result){
-        if ((s.length != f.length) || (s.length % 2 != 0)) {
+    public static String ACTIVITY_SELECTOR(int[] starts, int[] finishes) {
+        if ((starts.length != finishes.length) || (starts.length % 2 != 0)) {
             throw new IllegalArgumentException("Array inputs not valid");
         }
 
-        int sizeOfArray = s.length;
-
-        if(k == 0 && sizeOfArray >= 2) {
-            result += "(" + s[0] + ", " + f[0] + ") (" + s[1] + ", " + f[1] + ")";
+        if (starts.length == 0) {
+            return "";
         }
 
-        int m = k + 2;
-        while(m < sizeOfArray - 1 && s[m] < f[k + 1]){
-            m = m + 1;
+        List<int []> results = new ArrayList<>();
+
+        results.add(new int[]{ starts[0], finishes[0] });
+
+        int[] second = new int[]{ starts[1], finishes[1] };
+        results.add(findIndexToInsert(results, second, 0), second);
+
+        int lastInsertedIndex = 0;
+
+        for (int i = 2; i <= starts.length - 1; i += 2) {
+            if (starts[i] >= finishes[lastInsertedIndex]) {
+                int[] pair1 = new int[]{ starts[i], finishes[i] };
+                int insertionPoint1 = findIndexToInsert(results, pair1, lastInsertedIndex);
+
+                if (insertionPoint1 >= 0) {
+                    int[] pair2 = new int[]{ starts[i + 1], finishes[i + 1] };
+                    int insertionPoint2 = findIndexToInsert(results, pair2, 0);
+
+                    if (insertionPoint2 >= 0) {
+                        int offset = pair1[1] < pair2[1] ? 1 : 0;
+
+                        results.add(insertionPoint1, pair1);
+                        results.add(insertionPoint2 + offset, pair2);
+
+                        lastInsertedIndex = i;
+                    }
+                }
+            }
         }
 
-        if(m < sizeOfArray - 1){
-            result += " (" + s[m] + ", " + f[m] + ") (" + s[m + 1] + ", " + f[m + 1] + ")";
-
-            return RECURSIVE_ACTIVITY_SELECTOR(s, f, m, result);
-        } else {
-            return result;
-        }
+        return prettyString(results);
     }
 
+    public static int findIndexToInsert(List<int[]> results, int[] pair, int startingPoint) {
+        for (int i = startingPoint; i < results.size(); i++) {
+            int[] targetPair = results.get(i);
+
+            if (pair[0] >= targetPair[1]) {
+                boolean isLast = i == results.size() - 1;
+                if (isLast) {
+                    return i + 1;
+                }
+
+                int[] nextTargetPair = results.get(i + 1);
+                if (pair[1] <= nextTargetPair[0]) {
+                    return i + 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+
+    public static String prettyString(List<int[]> list) {
+        String result = "";
+
+        for (int[] pair : list) {
+            if (result.length() != 0) {
+                result += " ";
+            }
+            result += "(" + pair[0] + ", " + pair[1] + ")";
+        }
+
+        return result;
+    }
 }
