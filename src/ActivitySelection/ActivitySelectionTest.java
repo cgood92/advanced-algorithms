@@ -20,7 +20,7 @@ class ActivitySelectionTest {
 		String result = ActivitySelection.ACTIVITY_SELECTOR(
 			new int[] {4, 5, 1, 2 },
 			new int[] {5, 6, 2, 3 });
-		String expected = "(4, 5) (5, 6)";
+		String expected = "(1, 2) (2, 3) (4, 5) (5, 6)";
 		assertEquals(expected, result);
 	}
 

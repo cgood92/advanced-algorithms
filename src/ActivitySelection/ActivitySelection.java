@@ -37,6 +37,8 @@ public class ActivitySelection
             return "";
         }
 
+        ModifiedQuickSort.sort(starts, finishes, 0, finishes.length - 1);
+
         List<int []> results = new ArrayList<>();
 
         results.add(new int[]{ starts[0], finishes[0] });
@@ -102,5 +104,57 @@ public class ActivitySelection
         }
 
         return result;
+    }
+}
+
+/*
+Copied from https://www.geeksforgeeks.org/quick-sort/
+But then heavily modified for: modifying both start and finish arrays, as well as taking into account pairwise stuff.
+ */
+class ModifiedQuickSort {
+    public static int partition(int[] starts, int[] finishes, int low, int high)
+    {
+        int pivot = finishes[high - 1];
+        int i = low - 1;
+        for (int j = low; j < high - 1; j += 2)
+        {
+            boolean finishIsEqualButStartIsNot = (finishes[j] == pivot && (finishes[j] + finishes[j + 1]) < (pivot + finishes[high]));
+            if (finishes[j] < pivot || finishIsEqualButStartIsNot)
+            {
+                i++;
+
+                swap(starts, i, j);
+                swap(finishes, i, j);
+
+                i++;
+                swap(starts, i, j + 1);
+                swap(finishes, i, j + 1);
+            }
+        }
+
+        swap(starts, i + 1, high - 1);
+        swap(finishes, i + 1, high - 1);
+
+        swap(starts, i + 2, high);
+        swap(finishes, i + 2, high);
+
+        return i + 1;
+    }
+
+    public static void sort(int starts[], int finishes[], int low, int high)
+    {
+        if (low < high)
+        {
+            int pi = partition(starts, finishes, low, high);
+
+            sort(starts, finishes, low, pi - 1);
+            sort(starts, finishes, pi + 2, high);
+        }
+    }
+
+    public static void swap(int array[], int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
